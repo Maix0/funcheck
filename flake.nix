@@ -15,10 +15,9 @@
         pkgs = nixpkgs.legacyPackages.${system};
         llvm = pkgs.llvm_18;
         #commit = pkgs.lib.removeSuffix "-dirty" self.dirtyShortRev;
-        commit = builtins.substring 0 12 (pkgs.lib.removeSuffix "-dirty" self.dirtyRev);
         funcheck_drv = pkgs.stdenv.mkDerivation (final: {
           pname = "funcheck";
-          version = commit;
+          version = "1.1.4";
           src = ./.;
           patches = [
             (
@@ -45,7 +44,6 @@
           nativeBuildInputs = [pkgs.makeWrapper pkgs.minilibx pkgs.gnumake pkgs.xorg.libX11];
           buildInputs = [llvm];
           buildPhase = ''
-            ls -la
             export CFLAGS="-Werror -Wextra -Wall -Wno-stringop-truncation \
             -Wno-attributes -Wno-array-parameter -Wno-unused-result \
             -DABSOLUTE_LIBRARY_PATH=\\\"$out/share/funcheck/libfuncheck.so\\\" \
